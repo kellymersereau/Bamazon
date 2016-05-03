@@ -63,7 +63,7 @@ var purchase = function(){
 					connection.end();
 				} else if(res[0].StockQuantity >= productPurchased[0].Quantity){
 
-					console.log('Thank you for your order!');
+					console.log('');
 
 					console.log(productPurchased[0].Quantity + ' items purchased');
 
@@ -84,7 +84,9 @@ var purchase = function(){
 					connection.query("UPDATE Products SET StockQuantity = " + newQuantity +" WHERE ItemID = " + productPurchased[0].itemID, function(err, res){
 						// if(err) throw err;
 						// console.log('Problem ', err);
-						console.log('Your order has been processed.  Thank you for shopping with us!');
+						console.log('');
+						console.log(colors.cyan('Your order has been processed.  Thank you for shopping with us!'));
+						console.log('');
 
 						connection.end();
 					})
