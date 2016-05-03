@@ -8,6 +8,7 @@ var connection = mysql.createConnection({
 	database: 'Bamazon', 
 });
 
+var inventoryUpdate = [];
 
 connection.connect();
 
@@ -20,6 +21,7 @@ var managerOptions = {
 		},
 	},
 };
+
 
 prompt.start();
 prompt.get(managerOptions, function(err, res){
@@ -74,7 +76,39 @@ var viewInventory = function(){
 };
 
 var addInventory = function(){
+	var addInvt = {
+		properties:{
+			inventoryID: {
+				description: colors.blue('What is the ID number of the product you want to add inventory for?')
+			},
+			inventoryAmount:{
+				description: colors.green('How many items do you want to add to the inventory?')
+			}
+		},
+	};
 
+	prompt.start();
+
+
+	prompt.get(addInvt, function(err, res){
+
+		var invtAdded = {
+			inventoryAmount: res.inventoryAmount,
+			inventoryID: res.inventoryID,
+		}
+
+		inventoryUpdate.push(invtAdded);
+
+		connection.query("UPDATE Products SET StockQuantity = (StockQuantity + ?) WHERE ItemID = ?;", [inventoryUpdate[0].inventoryAmount, inventoryUpdate[0].inventoryID], function(err, result){
+			if(err) console.log('error '+ err);
+
+			connection.query("SELECT * FROM Products WHERE ItemID = ?", inventoryUpdate[0].inventoryID, function(error, resOne){
+				console.log('The new updated stock quantity for id# '+inventoryUpdate[0].inventoryID+ ' is ' + resOne[0].StockQuantity);
+				connection.end();
+			})
+
+		})
+	})
 };
 
 var addNewProduct = function(){
