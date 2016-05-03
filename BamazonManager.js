@@ -9,6 +9,7 @@ var connection = mysql.createConnection({
 });
 
 var inventoryUpdate = [];
+var addedProduct = [];
 
 connection.connect();
 
@@ -116,9 +117,39 @@ var addNewProduct = function(){
 		properties: {
 			newIdNum:{ description: colors.green('Please enter a unique 5 digit item Id #')},
 			newItemName:{ description: colors.blue('Please enter the name of the product you wish to add')},
-			newItemPrice: { description: colors.green('Please enter the price of the item in the format of 00.00')},
 			newItemDepartment: { description: colors.blue('What department does this item belong in?')},
+			newItemPrice: { description: colors.green('Please enter the price of the item in the format of 00.00')},
 			newStockQuantity: { description: colors.green('Please enter a stock quantity for this item')},
 		}
 	}
+
+	prompt.start();
+	prompt.get(newProduct, function(err, res){
+
+		var newItem = {
+			newIdNum: res.newIdNum,
+			newItemName: res. newItemName,
+			newItemDepartment: res.newItemDepartment,
+			newItemPrice: res.newItemPrice,
+			newStockQuantity: res.newStockQuantity,
+
+		};
+
+		addedProduct.push(newItem);
+
+		connection.query('INSERT INTO Products (ItemID, ProductName, DepartmentName, Price, StockQuantity) VALUES (?, ?, ?, ?, ?);', [addedProduct[0].newIdNum, addedProduct[0].newItemName, addedProduct[0].newItemDepartment, addedProduct[0].newItemPrice, addedProduct[0].newStockQuantity], function(err, result){
+
+			if(err) console.log('Error: ' + err);
+
+			console.log('New item successfully added to the inventory!');
+			console.log(' ');
+			console.log('Item id#: ' + addedProduct[0].newIdNum);
+			console.log('Item name: ' + addedProduct[0].newItemName);
+			console.log('Department: ' + addedProduct[0].newItemDepartment);
+			console.log('Price: $' + addedProduct[0].newItemPrice);
+			console.log('Stock Quantity: ' + addedProduct[0].newStockQuantity);
+
+			connection.end();
+		})
+	})
 };
