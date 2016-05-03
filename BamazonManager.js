@@ -116,8 +116,8 @@ var addNewProduct = function(){
 	var newProduct = {
 		properties: {
 			newIdNum:{ description: colors.green('Please enter a unique 5 digit item Id #')},
-			newItemName:{ description: colors.blue('Please enter the name of the product you wish to add')},
-			newItemDepartment: { description: colors.blue('What department does this item belong in?')},
+			newItemName:{ description: colors.green('Please enter the name of the product you wish to add')},
+			newItemDepartment: { description: colors.green('What department does this item belong in?')},
 			newItemPrice: { description: colors.green('Please enter the price of the item in the format of 00.00')},
 			newStockQuantity: { description: colors.green('Please enter a stock quantity for this item')},
 		}

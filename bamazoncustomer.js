@@ -59,9 +59,15 @@ var purchase = function(){
 
 					console.log(res[0].ProductName + ' ' + res[0].Price);
 
-					var totalPrice = res[0].Price * productPurchased[0].Quantity;
+					// * Modify the `BamazonCustomer.js` application such that customer transactions update not just the `Products` inventory but also calculates the total sales from each transaction (`quantity` * `price`). Add the revenue from each transaction to the TotalSales for the related department.
 
-					console.log('Total: ' + totalPrice);
+					var saleTotal = res[0].Price * productPurchased[0].Quantity;
+					connection.query("UPDATE Departments SET TotalSales = ? WHERE DepartmentName = ?;", [saleTotal, res[0].DepartmentName], function(err, resultOne){
+						if(err) console.log('error: ' + err);
+						return resultOne;
+					})
+
+					console.log('Total: ' + saleTotal);
 
 					newQuantity = res[0].StockQuantity - productPurchased[0].Quantity;
 			

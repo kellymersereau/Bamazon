@@ -78,3 +78,42 @@ INSERT INTO Products (ItemID, ProductName, DepartmentName, Price, StockQuantity)
 'Pets',
 59.99,
 5);
+
+USE bamazon;
+CREATE TABLE Departments(
+DepartmentId int AUTO_INCREMENT,
+PRIMARY KEY(DepartmentId),
+DepartmentName varchar(50) NOT NULL,
+OverHeadCosts int NOT NULL,
+TotalSales int NOT NULL);
+
+
+INSERT INTO Departments (DepartmentName, OverHeadCosts, TotalSales) VALUES (
+'Mens Clothing',
+10000,
+0);
+
+INSERT INTO Departments (DepartmentName, OverHeadCosts, TotalSales) VALUES (
+'Pets',
+10000,
+0);
+
+INSERT INTO Departments (DepartmentName, OverHeadCosts, TotalSales) VALUES (
+'Home',
+20000,
+0);
+
+INSERT INTO Departments (DepartmentName, OverHeadCosts, TotalSales) VALUES (
+'Shoes',
+15000,
+0);
+
+INSERT INTO Departments (DepartmentName, OverHeadCosts, TotalSales) VALUES (
+'Electronics',
+50000,
+0);
+
+INSERT INTO Departments (DepartmentName, OverHeadCosts, TotalSales) VALUES (
+'Womens Clothing',
+25000,
+0);
