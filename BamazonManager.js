@@ -1,6 +1,7 @@
 var mysql = require('mysql');
 var prompt = require('prompt');
 var colors = require('colors/safe');
+var Table = require('cli-table');
 var connection = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
@@ -46,14 +47,22 @@ var viewProducts = function(){
 		console.log('Products for Sale')
 		console.log('');	
 
+		var table = new Table({
+			head: ['Item Id#', 'Product Name', 'Department Name', 'Price', 'Stock Quantity'],
+			style: {
+				head: ['blue'],
+				compact: false,
+				colAligns: ['center'],
+			}
+		});
+
 		for(var i=0; i<res.length; i++){
-			console.log('Item Id #: ' + res[i].ItemID);
-			console.log('Product Name: ' + res[i].ProductName);
-			console.log('Department Name: ' + res[i].DepartmentName);
-			console.log('Price: $' + res[i].Price);
-			console.log('Stock Quantity: ' + res[i].StockQuantity);
-			console.log('');	
-		};
+			table.push(
+				[res[i].ItemID, res[i].ProductName, res[i].DepartmentName, res[i].Price, res[i].StockQuantity]
+			);
+		}
+
+		console.log(table.toString());
 		connection.end();
 	})
 };
@@ -64,14 +73,22 @@ var viewInventory = function(){
 		console.log('Items With Low Inventory');
 		console.log('');
 
+		var table = new Table({
+			head: ['Item Id#', 'Product Name', 'Department Name', 'Price', 'Stock Quantity'],
+			style: {
+				head: ['blue'],
+				compact: false,
+				colAligns: ['center'],
+			}
+		});
+
 		for(var i=0; i<res.length; i++){
-			console.log('Item Id #: ' + res[i].ItemID);
-			console.log('Product Name: ' + res[i].ProductName);
-			console.log('Department Name: ' + res[i].DepartmentName);
-			console.log('Price: $' + res[i].Price);
-			console.log('Stock Quantity: ' + res[i].StockQuantity);
-			console.log('');	
-		};
+			table.push(
+				[res[i].ItemID, res[i].ProductName, res[i].DepartmentName, res[i].Price, res[i].StockQuantity]
+			);
+		}
+
+		console.log(table.toString());
 		connection.end();
 	})
 };
