@@ -14,6 +14,7 @@ var newDept = [];
 
 connection.connect();
 
+//creates the question that will be prompted to the user
 var executiveOptions = {
 	properties:{
 		eOptions:{
@@ -22,10 +23,11 @@ var executiveOptions = {
 	},
 };
 
-// * When an executive enters the View Product Sales option, they should given a summarized table which shows a format like the below:
-
 prompt.start();
+
+//gets the information responded by the user from the prompt
 prompt.get(executiveOptions, function(err, res){
+	//this explains what should be done based on what the user answered to the prompt
 	if(res.eOptions == 1){
 		viewProductSales();
 	} else if(res.eOptions == 2){
@@ -36,7 +38,9 @@ prompt.get(executiveOptions, function(err, res){
 	}
 });
 
+//creates the function to be run when the user picks option 1
 var viewProductSales = function(){
+	//creates a table for the data to be stored and displayed in node
 	var table = new Table({
 		head: ['Department ID', 'Department Name', 'Overhead Cost', 'Total Sales', 'Total Profit'],
 		style: {
@@ -48,9 +52,11 @@ var viewProductSales = function(){
 	console.log(' ');
 	console.log(colors.black.bgWhite.underline('Product Sales by Department'));
 
+	//connects to the mysql databased and grabs the information from the alias table called totalprofits.  this table contains all information from the Department database but also has an extra column that calculates how much the total profits are based on the overhead cost and the total sales made for each department
 	connection.query('SELECT * FROM totalprofits', function(err, res){
 		if(err) console.log('Error: ' + err);
 
+		//this loops through the data pulled from the totalprofits database and pushes it into the table above
 		for(var i = 0; i<res.length; i++){
 			table.push(
 				[res[i].DepartmentId, res[i].DepartmentName, res[i].OverHeadCosts, res[i].TotalSales, res[i].TotalProfit]
@@ -63,7 +69,10 @@ var viewProductSales = function(){
 	})
 };
 
+//creates the function to be run when the user selects option 2
 var createDepartment = function(){
+
+	//creates the questions to be prompted to the user when option 2 is selected - since the department id# auto increments the user doesn't have to enter anything for item id and since total sales is calculated based on sales made  the user doesn't input any data for total sales
 	var newDepartment = {
 		properties: {
 			newDeptName:{ description: colors.magenta('Please enter the name of the new department you would like to add.')
@@ -74,17 +83,18 @@ var createDepartment = function(){
 	}
 
 	prompt.start();
-
+	//gets the information the user entered for the prompt above
 	prompt.get(newDepartment, function(err, res){
 
+		//creates a variable to store the user responses
 		var newDeptInfo = {
 			deptName: res.newDeptName,
 			overHeadNew: res.newOverhead,
 			autoTotalSales: 0,
 		};
-
+		//pushes user responses to the array defined above by the variable newDept
 		newDept.push(newDeptInfo);
-
+		//connects to the mysql database Departments and inserts the information received from the user into the database to create a new department
 		connection.query('INSERT INTO Departments (DepartmentName, OverHeadCosts, TotalSales) VALUES (?, ?, ?);', [newDept[0].deptName, newDept[0].overHeadNew, newDept[0].autoTotalSales], function(err, result){
 			if(err){
 				console.log('Error: ' + err);
