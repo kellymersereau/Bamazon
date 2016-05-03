@@ -1,6 +1,7 @@
 var mysql = require('mysql');
 var prompt = require('prompt');
 var colors = require('colors/safe');
+var Table = require('cli-table');
 var connection = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
@@ -14,14 +15,23 @@ connection.connect();
 
 
 connection.query('SELECT ItemID, ProductName, Price FROM Products', function(err, result){
-	if(err) throw err;
+	if(err) console.log(err);
+
+	var table = new Table({
+		head: ['Item Id#', 'Product Name', 'Price'],
+		style: {
+			head: ['blue'],
+			compact: false,
+			colAligns: ['center'],
+		}
+	});
 
 	for(var i = 0; i < result.length; i++){
-		console.log("Item ID#: " + result[i].ItemID);
-		console.log("Product Name: " + result[i].ProductName);
-		console.log("Price: " + result[i].Price);
-		console.log(" ----------------------------");
+		table.push(
+			[result[i].ItemID, result[i].ProductName, result[i].Price]
+		);
 	}
+	console.log(table.toString());
 
 	purchase();
 });
