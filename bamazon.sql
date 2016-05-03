@@ -84,8 +84,8 @@ CREATE TABLE Departments(
 DepartmentId int AUTO_INCREMENT,
 PRIMARY KEY(DepartmentId),
 DepartmentName varchar(50) NOT NULL,
-OverHeadCosts int NOT NULL,
-TotalSales int NOT NULL);
+OverHeadCosts DECIMAL(11,2) NOT NULL,
+TotalSales DECIMAL(11,2) NOT NULL);
 
 
 INSERT INTO Departments (DepartmentName, OverHeadCosts, TotalSales) VALUES (
