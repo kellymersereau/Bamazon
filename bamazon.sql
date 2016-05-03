@@ -117,3 +117,8 @@ INSERT INTO Departments (DepartmentName, OverHeadCosts, TotalSales) VALUES (
 'Womens Clothing',
 25000,
 0);
+
+
+-- This creates the alias table TotalProfits that will exist only when requested by the executive 
+SHOW TABLES;
+CREATE VIEW bamazon.TotalProfits AS SELECT DepartmentId, DepartmentName, OverHeadCosts, TotalSales, TotalSales-OverHeadCosts AS TotalProfit FROM Departments;

@@ -18,3 +18,24 @@ var executiveOptions = {
 	},
 };
 
+// * When an executive enters the View Product Sales option, they should given a summarized table which shows a format like the below:
+
+prompt.start();
+prompt.get(executiveOptions, function(err, res){
+	if(res.eOptions == 1){
+		viewProductSales();
+	} else if(res.eOptions == 2){
+		createDepartment();
+	} else{
+		console.log('You picked an invalid choice!');
+		connection.end();
+	}
+});
+
+var viewProductSales = function(){
+
+};
+
+var createDepartment = function(){
+
+};
