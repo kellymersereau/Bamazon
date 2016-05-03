@@ -5,82 +5,78 @@ var connection = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
 	password: '',
-	database: 'Bamazon'
+	database: 'Bamazon', 
 });
 
-var productPurchasedId = 0;
-var productPurchasedQuantity = 0;
-var newQuantity = 0;
+var productPurchased = [];
 
 connection.connect();
-prompt.start();
+
 
 connection.query('SELECT ItemID, ProductName, Price FROM Products', function(err, result){
-	if (err) throw err;
+	if(err) throw err;
 
 	for(var i = 0; i < result.length; i++){
 		console.log("Item ID#: " + result[i].ItemID);
 		console.log("Product Name: " + result[i].ProductName);
 		console.log("Price: " + result[i].Price);
-		console.log(" ");
+		console.log(" ----------------------------");
 	}
 
-	prompt.get({
+	purchase();
+});
+
+var purchase = function(){
+	var productInfo = {
 		properties: {
-			productPurchasedId: {
-				description: colors.blue('Enter the ID # of the product you wish you purchase.')
-			}
-		}
-	}, function(err, res){
-		if(err) throw err;
-		productPurchasedId = res.productPurchasedId;
-		prompt.get({
-			properties: {
-				productPurchasedQuantity: {
-					description: colors.green('How many items would you like to purchase?')
-				}
-			}
-		}, function(err, res){
-			productPurchasedQuantity = res.productPurchasedQuantity;
-			checkForItem();
-			connection.end();
+			itemID:{description: colors.blue('Please enter the ID # of the item you wish to purchase!')},
+			Quantity:{description: colors.green('How many items would you like to purchase?')}
+		},
+	};
+
+	prompt.start();
+	prompt.get(productInfo, function(err, res){
+
+		var custPurchase = {
+			itemID: res.itemID,
+			Quantity: res.Quantity
+		};
+		
+		productPurchased.push(custPurchase);
+
+
+		connection.query('SELECT * FROM Products WHERE ItemID=?', productPurchased[0].itemID, function(err, res){
+				if(err) console.log(err, 'That item ID doesn\'t exist');
+				
+				if(res[0].StockQuantity < productPurchased[0].Quantity){
+					console.log('That product is out of stock!');
+					connection.end();
+				} else if(res[0].StockQuantity >= productPurchased[0].Quantity){
+
+					console.log('Thank you for your order!');
+
+					console.log(productPurchased[0].Quantity + ' items purchased');
+
+					console.log(res[0].ProductName + ' ' + res[0].Price);
+
+					var totalPrice = res[0].Price * productPurchased[0].Quantity;
+
+					console.log('Total: ' + totalPrice);
+
+					newQuantity = res[0].StockQuantity - productPurchased[0].Quantity;
+			
+					connection.query("UPDATE Products SET StockQuantity = " + newQuantity +" WHERE ItemID = " + productPurchased[0].itemID, function(err, res){
+						// if(err) throw err;
+						// console.log('Problem ', err);
+						console.log('Your order has been processed.  Thank you for shopping with us!');
+
+						connection.end();
+					})
+
+				};
+
 		})
 	})
 
-});
-var checkForItem = function(){
-	connection.query('SELECT * FROM Products WHERE Products.ItemID = ?', productPurchasedId, function(err, resOne){
-		if(err) console.log(err, 'That item ID doesn\'t exist');
-		// console.log(resOne[0].StockQuantity);
-		if(resOne[0].StockQuantity < productPurchasedQuantity){
-			console.log('Insufficient quantity!');
-		} else if(resOne[0].StockQuantity >= productPurchasedQuantity){
-
-			console.log('Thank you for your order!');
-
-			console.log(productPurchasedQuantity + ' items purchased');
-
-			console.log(resOne[0].ProductName + ' ' + resOne[0].Price);
-
-			var totalPrice = resOne[0].Price * productPurchasedQuantity;
-
-			console.log('Total: ' + totalPrice);
-
-			newQuantity = resOne[0].StockQuantity - productPurchasedQuantity;
-			updateDatabase();
-
-		}
-	})
-};
-
-var updateDatabase = function(){
-	connection.query("UPDATE Products SET StockQuantity = ? WHERE ItemID = ?", newQuantity, productPurchasedId, function(err, res){
-		if(err) throw err;
-		// 	console.log('Problem ', err);
-		// } else {
-			console.log(res[0].StockQuantity);
-		// }
-
-	})
 };
 
