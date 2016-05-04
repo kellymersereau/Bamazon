@@ -33,7 +33,7 @@ The second option allows the user to see a list of all inventory items that have
 ###### Manager Options 3 & 4
 ***
 
-![Bamazon Manager Portal - Options 3 & 4](Images/manager-view-2.jpg)
+* ![Bamazon Manager Portal - Options 3 & 4](Images/manager-view-2.jpg)
 
 The third option allows the user to update the inventory for a specific product.  A prompt asks what the id is for the product the user wants to update.  A second prompt asks how many items the user wishes to increase the quantity by.
 
