@@ -51,13 +51,11 @@ The Bamazon Executive Portal allows users to view the total profits of the store
 
 
 ##### Contributors:
-***
 
 Kelly Mersereau [GitHub](https://github.com/kellymersereau)
 
 
 ##### Technologies Used:
-***
 
 * Javascript
 * nodeJS
@@ -70,7 +68,6 @@ Kelly Mersereau [GitHub](https://github.com/kellymersereau)
 
 
 ##### License
-***
 
 Copyright 2016 Rutgers Coding Bootcamp - Kelly Mersereau
 
