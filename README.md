@@ -10,7 +10,7 @@ An interactive shopping node app where MySQL and Node.JS are used to allow users
 
 The Bamazon Customer Portal allows users to view the current items available for purchase.  The user will be prompted to enter the item id# and how many items they wish to purchase.  If the item is in stock, the order will be completed and the user will see the total amount of their purchase.
 
-![Customer Portal](/Images/customer-view.jpg)
+![Customer Portal](Images/customer-view.jpg)
 
 ##### Bamazon Manager Portal
 ***
@@ -24,7 +24,7 @@ The Bamazon Customer Portal allows users to view and edit the inventory of the s
 ###### Manager Options 1 & 2
 ***
 
-![Bamazon Manager Portal - Options 1 & 2](/Images/manager-view-1.jpg)
+![Bamazon Manager Portal - Options 1 & 2](Images/manager-view-1.jpg)
 
 The first option allows the user to see the list of products that are currently for sale, what department the item belongs to, the price of the product and how much stock is left for that product.
 
@@ -33,7 +33,7 @@ The second option allows the user to see a list of all inventory items that have
 ###### Manager Options 3 & 4
 ***
 
-![Bamazon Manager Portal - Options 3 & 4](/Images/manager-view-2.jpg)
+![Bamazon Manager Portal - Options 3 & 4](Images/manager-view-2.jpg)
 
 The third option allows the user to update the inventory for a specific product.  A prompt asks what the id is for the product the user wants to update.  A second prompt asks how many items the user wishes to increase the quantity by.
 
@@ -45,7 +45,7 @@ The last option allows the user to add a new product to the inventory.  Prompts 
 
 The Bamazon Executive Portal allows users to view the total profits of the store categorized by department and add new departments.  
 
-![Bamazon Executive Portal](/Images/executive-view.jpg)
+![Bamazon Executive Portal](Images/executive-view.jpg)
 
 
 ##### Contributors:
